@@ -44,11 +44,11 @@ def runner_main():
 
 
     # Send mails to the recipients with the attachments
-    mailresult = mailer.send_email(output_file)
+    # mailresult = mailer.send_email(output_file)
     
     # give a final output
-    if mailresult == True:
-        print("Process fininshed. Mails have been sent with attachement!")
+    #if mailresult == True:
+    #    print("Process fininshed. Mails have been sent with attachement!")
         #logging.info("Process fininshed. Mails have been sent with attachement!")
 
 # get the inputs of the file paths and store it in the json file
