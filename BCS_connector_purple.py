@@ -33,7 +33,7 @@ def connect_db(query):
 
 
 
-def reader_df(supplier_id):
+def reader_df():
       
 	query = f"""
 	Exec bcs_sp_master_data_item_loc_review_npbsi_ns

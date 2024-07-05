@@ -60,8 +60,6 @@ def read_data_into_table(connection, df):
         sales_disc_grps = row["sales_disc_grps"]
         purch_disc_grp = row["purch_disc_grp"]
         purch_disc_grps = row["purch_disc_grps"]
-        std_cost_updates = row["std_cost_updates"]
-        std_cost_update_amt = row["std_cost_update_amt"]
         discrepancy_type = row["discrepancy_type"]
 
         # SQL query to insert data into the table
@@ -70,8 +68,8 @@ def read_data_into_table(connection, df):
             supplier_part_no, clean_sup_part_no, supplier_id, item_prefix, item_id, clean_item, product_type, 
             on_price_book_flag, cln_location_cnt, no_of_suppliers, no_of_locations, buyable_locs, sellable_locs, 
             delete_locs, discontinued_locs, prod_groups, prod_grps, sales_disc_grp, sales_disc_grps, purch_disc_grp, 
-            purch_disc_grps, std_cost_updates, std_cost_update_amt, discrepancy_type
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            purch_disc_grps, discrepancy_type
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
 
         # Execute the SQL query with the data from the current row
@@ -79,7 +77,7 @@ def read_data_into_table(connection, df):
             supplier_part_no, clean_sup_part_no, supplier_id, item_prefix, item_id, clean_item, product_type, 
             on_price_book_flag, cln_location_cnt, no_of_suppliers, no_of_locations, buyable_locs, sellable_locs, 
             delete_locs, discontinued_locs, prod_groups, prod_grps, sales_disc_grp, sales_disc_grps, purch_disc_grp, 
-            purch_disc_grps, std_cost_updates, std_cost_update_amt, discrepancy_type
+            purch_disc_grps, discrepancy_type
         ))
 
     

@@ -1,4 +1,4 @@
-CREATE TABLE blue_items (
+CREATE TABLE purple_items (
     supplier_part_no VARCHAR(120),
     clean_sup_part_no VARCHAR(120),
     supplier_id VARCHAR(120),
@@ -20,7 +20,5 @@ CREATE TABLE blue_items (
     sales_disc_grps VARCHAR(120),
     purch_disc_grp VARCHAR(120),
     purch_disc_grps VARCHAR(120),
-    std_cost_updates VARCHAR(120),
-    std_cost_update_amt VARCHAR(120),
     discrepancy_type VARCHAR(120)
 );

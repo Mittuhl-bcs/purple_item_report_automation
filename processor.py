@@ -9,7 +9,6 @@ import glob
 import logging
 from datetime import datetime
 import json
-import BCS_connector_blue
 import BCS_connector_purple
 import Pgs_connector
 
@@ -20,11 +19,9 @@ class processor():
     # Read the data from the BCS database
     def read_data(self):
 
-        df = BCS_connector_blue.reader_df()
+        df = BCS_connector_purple.reader_df()
 
-        #df = BCS_connector_purple.reader_df()
-
-
+        
         return df
     
 
@@ -43,10 +40,10 @@ class processor():
         discrepancy_types = []
 
         for index, row in df.iterrows():
-            
+
             if df.loc[index, "clean_sup_part_no"] != df.loc[index, "clean_item"]:
                 discrepancy_types.append("SPN & itemid")
-            
+                
             if df.loc[index, "prod_groups"] != "BCS inv":
                 discrepancy_types.append("product group")
 
@@ -62,10 +59,10 @@ class processor():
             if df.loc[index, "discontinued_locs"] > 0:
                 discrepancy_types.append("Discontinued locations")
 
-            if df.loc[index, "purch_disc_grps"] == "DEFAULT":
+            if df.loc[index, "purch_disc_grps"] == "DEFAULT": # question : should it include Default with others, or should it be only default
                 discrepancy_types.append("Product disc group")
 
-            if df.loc[index, "sales_disc_grps"] == "NPBSINV":
+            if df.loc[index, "sales_disc_grps"] == "DEFAULT":
                 discrepancy_types.append("Sales disc group")
 
             if df.loc[index, "restricted_class"] != np.nan:
@@ -77,8 +74,8 @@ class processor():
 
             if df.loc[index, "product type"] != "R":
                 discrepancy_types.append("Product type")
-
-
+            
+            
 
         return df
     
