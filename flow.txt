@@ -1,0 +1,8 @@
+The processor gets the data from BCS by getting connected through BCS_connector
+Then it cleans all the data and processes it and returns the dataset to runner
+The runners takes it and uploads the postgres DB and saves a file on a remote folder
+Then the runner shares the dataset as an excel file through mailer 
+
+
+Note:
+Create separate files for each of the colors and follow altogether different approaches

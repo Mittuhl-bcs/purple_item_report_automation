@@ -1,0 +1,2 @@
+blue = Exec bcs_sp_master_data_item_loc_review_npbsi
+purple = Exec bcs_sp_master_data_item_loc_review_npbsi_ns
