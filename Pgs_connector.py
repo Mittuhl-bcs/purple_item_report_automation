@@ -64,7 +64,7 @@ def read_data_into_table(connection, df):
 
         # SQL query to insert data into the table
         sql = """
-        INSERT INTO your_table_name (
+        INSERT INTO purple_items (
             supplier_part_no, clean_sup_part_no, supplier_id, item_prefix, item_id, clean_item, product_type, 
             on_price_book_flag, cln_location_cnt, no_of_suppliers, no_of_locations, buyable_locs, sellable_locs, 
             delete_locs, discontinued_locs, prod_groups, prod_grps, sales_disc_grp, sales_disc_grps, purch_disc_grp, 
