@@ -5,20 +5,20 @@ Checks and critieria for Purple space:
 Note: do not change the original item id, supplier part number and shortcode - new columns for matchin purpose only 
 
 - dont focus on prefix - leave it
-- stockable = N
-- replenishment method - min/max
-- min and max = 0
-- replenishment locations = sales locations
+<------- stockable = N
+<------- replenishment method - min/max
+<------- min and max = 0
+<------- replenishment locations = sales locations
 - no restriction set
-- track bin = N
-- primary bin = N
+<------- track bin = N
+<------- primary bin = N
 - P1
 - on vendor price book = N
 - product type  = T (Temp or temporary)
 - no good locations should be deleted
 - no good locations should be discountinued
 - item id shouldn't have any special characters
-- supplier part number = shortcode 
+<------- supplier part number = shortcode 
 - stripped itemid = stripped supplier part number
 - product group - BCS inv
 - sales discount group = default
@@ -99,3 +99,4 @@ total_inv.LPD
 
 ORDER BY
 inv_mast_ud.on_vendor_price_book, p21_item_view.item_id
+

@@ -41,10 +41,14 @@ class processor():
 
         for index, row in df.iterrows():
 
+            cost = df.loc[index, "supplier_cost"]
+            listp = df.loc[index, "supplier_list"]
+            p1 = df.loc[index, "p1"]
+
             if df.loc[index, "clean_sup_part_no"] != df.loc[index, "clean_item"]:
                 discrepancy_types.append("SPN & itemid")
                 
-            if df.loc[index, "prod_groups"] != "BCS inv":
+            if df.loc[index, "prod_groups"] != "BCS INV":
                 discrepancy_types.append("product group")
 
             if df.loc[index, "buyable_locs"] != 18:
@@ -65,15 +69,31 @@ class processor():
             if df.loc[index, "sales_disc_grps"] == "DEFAULT":
                 discrepancy_types.append("Sales disc group")
 
-            if df.loc[index, "restricted_class"] != np.nan:
+            if df.loc[index, "restricted_class"] != "N":
                 discrepancy_types.append("Restricted class")
 
             if df.loc[index, "std_cost_update_amt"] != 0:
                 if df.loc[index, "std_cost_updates"] <= 0:
                     discrepancy_types.append("Standard cost")
 
-            if df.loc[index, "product type"] != "R":
+            if df.loc[index, "product type"] != "Temp":
                 discrepancy_types.append("Product type")
+
+            if df.loc[index, "on_price_book_flag"] != "N":
+                discrepancy_types.append("on_price_book_flag")
+
+
+            p1_cal = round((cost / 0.65) * 2, 2)
+            p1_com = 0
+
+            if p1_cal < round(listp, 2):
+                p1_com = listp
+            else:
+                p1_com = round((cost / 0.65) * 2, 2)
+
+            
+            if p1 != p1_com:
+                discrepancy_types.append("P1")
             
             
 
