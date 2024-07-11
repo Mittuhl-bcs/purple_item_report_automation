@@ -5,14 +5,17 @@ Checks and critieria for Purple space:
 Note: do not change the original item id, supplier part number and shortcode - new columns for matchin purpose only 
 
 - dont focus on prefix - leave it
+Separate Query - Purple replenishment
 <------- stockable = N
 <------- replenishment method - min/max
 <------- min and max = 0
 <------- replenishment locations = sales locations
-- no restriction set
 <------- track bin = N
 <------- primary bin = N
+
+Items
 - P1
+- no restriction set
 - on vendor price book = N
 - product type  = T (Temp or temporary)
 - no good locations should be deleted
