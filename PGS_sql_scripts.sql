@@ -1,12 +1,12 @@
 CREATE TABLE purple_items (
-    supplier_part_no VARCHAR(120),
-    clean_sup_part_no VARCHAR(120),
-    supplier_id VARCHAR(120),
-    item_prefix VARCHAR(120),
-    item_id VARCHAR(120),
-    clean_item VARCHAR(120),
-    short_code VARCHAR(200),
-    product_type VARCHAR(120),
+    supplier_part_no VARCHAR(250),
+    clean_sup_part_no VARCHAR(250),
+    supplier_id VARCHAR(250),
+    item_prefix VARCHAR(250),
+    item_id VARCHAR(250),
+    clean_item VARCHAR(250),
+    short_code VARCHAR(250),
+    product_type VARCHAR(250),
     on_price_book_flag VARCHAR(120),
     supplier_list VARCHAR(200),
     supplier_cost VARCHAR(200),
@@ -26,5 +26,5 @@ CREATE TABLE purple_items (
     purch_disc_grps VARCHAR(120),
     restricted VARCHAR(20),
     loc_cost_updates VARCHAR(20),
-    discrepancy_type VARCHAR(120)
+    discrepancy_type VARCHAR(400)
 );
