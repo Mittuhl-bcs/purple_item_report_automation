@@ -29,9 +29,25 @@ def connect_to_postgres(dbname, user, password, host, port):
         return None
 
 
-def read_data_into_table(connection, df):
-    # replace the company_df with P21_folder
 
+def read_data_into_table(connection, df, new_loop):
+
+    if new_loop == "yes":
+
+        cursor = connection.cursor()
+        # SQL query to delete existing data into the table
+        sqld = """
+        delete from purple_items;
+        """
+
+        # Execute the SQL query with the data from the current row
+        cursor.execute(sqld)
+
+        connection.commit()
+        cursor.close()
+
+
+    # replace the company_df with P21_folder
     main_df = pd.DataFrame() 
 
     main_df = df.copy()
