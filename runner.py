@@ -33,8 +33,8 @@ def runner_main(new_loop):
     year = current_time.year
 
     # database table name and output file name
-    table_name = "blue_items"
-    output_file = f"D:\\Temp_items_reports\\Discrepancies - Price matching report {day}-{month}-{year}"
+    table_name = "purple_items"
+    output_file = f"D:\\Temp_items_reports\\Discrepancies - Purple items - Price matching report {day}-{month}-{year}.csv"
 
 
     conn = pgs.connect_to_postgres(dbname, user, password, host, port)

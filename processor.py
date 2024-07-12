@@ -99,7 +99,7 @@ class processor():
                 discrepancy_types.append("Restricted")
                 discrepancy_flag = 1
 
-            if df.loc[index, "product type"] != "Temp":
+            if df.loc[index, "product_type"] != "Temp":
                 discrepancy_types.append("Product type")
                 discrepancy_flag = 1
 
@@ -148,7 +148,7 @@ class processor():
         return df
     
 
-    def main():
+    def main(self):
 
         processorob = processor()
         df = processorob.read_data()

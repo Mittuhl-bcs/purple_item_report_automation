@@ -3,10 +3,12 @@ import logging
 from datetime import datetime
 import os
 import pandas as pd
+import csv
+
 
 current_time = datetime.now()
 fcurrent_time = current_time.strftime("%Y-%m-%d-%H-%M-%S")
-log_file = os.path.join("D:\\Automation\\Logging_information\\", f"Pricing_automation_{fcurrent_time}.log")
+log_file = os.path.join("D:\\purple_items_report_automation\\Logging_information\\", f"Pricing_automation_{fcurrent_time}.log")
 logging.basicConfig(filename=log_file, level=logging.DEBUG)
 
 
@@ -81,7 +83,7 @@ def read_data_into_table(connection, df, new_loop):
         purch_disc_grps = row["purch_disc_grps"]
         restricted = row["restricted"]
         loc_cost_updates = row["loc_cost_updates"]
-        discrepancy_type = row["discrepancy_type"]
+        discrepancy_type = row["discrepancy_types"]
 
         # SQL query to insert data into the table
         sql = """
@@ -108,11 +110,27 @@ def read_data_into_table(connection, df, new_loop):
 # export the csv from the database
 def export_table_to_csv(connection, table_name, output_file):
     try:
-        cursor = connection.cursor()
-        with open(output_file, 'w') as f:
-            cursor.copy_expert(f"COPY {table_name} TO STDOUT WITH CSV HEADER", f)
-        logging.info(f"Data from table '{table_name}' successfully exported to '{output_file}'")
-        
+            cursor = connection.cursor()
+
+            with open(output_file, 'w', encoding='utf-8', newline='') as file:
+                csv_writer = csv.writer(file)
+
+                            
+                # Fetch data from the table and column headers
+                cursor.execute(f"SELECT * FROM {table_name}")
+                rows = cursor.fetchall()
+                column_names = [desc[0] for desc in cursor.description]
+                
+                # Write column headers
+                csv_writer.writerow(column_names)
+
+                # Write rows
+                for row in rows:
+                    csv_writer.writerow([
+                        str(cell).encode('utf-8', errors='replace').decode('utf-8').replace('?', 'Error character')
+                        for cell in row
+                    ])
+                    
     except psycopg2.Error as e:
         logging.error(f"Error exporting data from table '{table_name}' to CSV file")
         logging.error(e)
