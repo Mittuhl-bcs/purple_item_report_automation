@@ -5,8 +5,12 @@ CREATE TABLE purple_items (
     item_prefix VARCHAR(120),
     item_id VARCHAR(120),
     clean_item VARCHAR(120),
+    short_code VARCHAR(200),
     product_type VARCHAR(120),
     on_price_book_flag VARCHAR(120),
+    supplier_list VARCHAR(200),
+    supplier_cost VARCHAR(200),
+    p1 VARCHAR(20),
     cln_location_cnt VARCHAR(120),
     no_of_suppliers VARCHAR(120),
     no_of_locations VARCHAR(120),
@@ -20,5 +24,7 @@ CREATE TABLE purple_items (
     sales_disc_grps VARCHAR(120),
     purch_disc_grp VARCHAR(120),
     purch_disc_grps VARCHAR(120),
+    restricted VARCHAR(20),
+    loc_cost_updates VARCHAR(20),
     discrepancy_type VARCHAR(120)
 );
