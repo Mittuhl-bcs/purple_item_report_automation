@@ -21,7 +21,7 @@ class processor():
 
         df = BCS_connector_purple.reader_df()
 
-        
+        print("Read data from the database!")        
         return df
     
 
@@ -143,7 +143,7 @@ class processor():
 
                 df.loc[index, "discrepancy_types"] = joined_discrepany
             
-            
+        print("Checks have been applied")  
         # return the processed df
         return df
     

@@ -105,6 +105,7 @@ def read_data_into_table(connection, df, new_loop):
 
     
     cursor.close()
+    print("Written data into Postgres Db")
         
         
 # export the csv from the database
