@@ -27,6 +27,7 @@ def connect_db(query):
     # read data into DataFrame
     df = pd.read_sql_query(query, connection)
 
+    print("Read the data from database.")
         
     # return df
     return df, connection
