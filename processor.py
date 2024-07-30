@@ -71,14 +71,7 @@ class processor():
                 discrepancy_types.append("product group")
                 discrepancy_flag = 1
 
-            if df.loc[index, "buyable_locs"] != 18:
-                discrepancy_types.append("Buyable locations")
-                discrepancy_flag = 1
-
-            if df.loc[index, "sellable_locs"] != 18:
-                discrepancy_types.append("Sellable locations")
-                discrepancy_flag = 1
-
+            
             if df.loc[index, "delete_locs"] > 0:
                 discrepancy_types.append("Delete locations")
                 discrepancy_flag = 1
