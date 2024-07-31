@@ -52,11 +52,18 @@ def read_data_into_table(connection, df, new_loop):
     # replace the company_df with P21_folder
     main_df = pd.DataFrame() 
 
+    main_df = df[df["discrepancy_types"] != "All right"]
+    main_df.loc[:, 'supplier_id'] = main_df['supplier_id'].astype(str)
+    main_df.loc[:, 'last_price_update'] = main_df['last_price_update'].astype(str)
+
+    exclude_ids = ["130001", "130014", "185447", "130020", "130026", "130027", "130029", "130031", "130033", "130007", "130036", "130039", "130040", "130041", "130006"]
+    filtered_df = main_df[~main_df['supplier_id'].isin(exclude_ids)]
+
     main_df = df.copy()
 
     cursor = connection.cursor()
 
-    for index, row in main_df.iterrows():
+    for index, row in filtered_df.iterrows():
         supplier_part_no = row["supplier_part_no"]
         clean_sup_part_no = row["clean_sup_part_no"]
         supplier_id = row["supplier_id"]

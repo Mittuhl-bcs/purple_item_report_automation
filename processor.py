@@ -64,10 +64,14 @@ class processor():
 
 
             if df.loc[index, "clean_sup_part_no"] != df.loc[index, "clean_item"]:
-                discrepancy_types.append("SPN & itemid")
+                discrepancy_types.append("clean SPN & clean itemid")
+                discrepancy_flag = 1
+
+            if df.loc[index, "supplier_part_no"] != df.loc[index, "short_code"]:
+                discrepancy_types.append("SPN & shortcode")
                 discrepancy_flag = 1
                 
-            if df.loc[index, "prod_groups"] != "BCS INV":
+            if df.loc[index, "prod_grps"] != "BCS INV":
                 discrepancy_types.append("product group")
                 discrepancy_flag = 1
 
@@ -80,11 +84,11 @@ class processor():
                 discrepancy_types.append("Discontinued locations")
                 discrepancy_flag = 1
 
-            if df.loc[index, "purch_disc_grps"] == "DEFAULT": # question : should it include Default with others, or should it be only default
-                discrepancy_types.append("Product disc group")
+            if df.loc[index, "purch_disc_grps"] != "DEFAULT": # question : should it include Default with others, or should it be only default
+                discrepancy_types.append("Purchase disc group")
                 discrepancy_flag = 1
 
-            if df.loc[index, "sales_disc_grps"] == "DEFAULT":
+            if df.loc[index, "sales_disc_grps"] != "DEFAULT":
                 discrepancy_types.append("Sales disc group")
                 discrepancy_flag = 1
 
@@ -121,8 +125,18 @@ class processor():
                 shortcode_cleaned = re.sub(r'[^a-zA-Z0-9\s]', "", shortcode)
                 #print(shortcode_cleaned)
                 
-                if shortcode_cleaned != df.loc[index, "clean_sup_part_no"]:     # needs to be included in query
-                    discrepancy_types.append("shortcode & SPN")       # question: shortcode is a part of SPN?
+                if shortcode != df.loc[index, "clean_sup_part_no"]:     # needs to be included in query
+                    discrepancy_types.append("clean shortcode & clean SPN")       # question: shortcode is a part of SPN?
+                    discrepancy_flag = 1
+
+
+            item_id = df.loc[index, "item_id"]
+
+            if pd.notnull(item_id):
+                pattern = re.compile(r'[^a-zA-Z0-9 ]')
+
+                if pattern.search(item_id):
+                    discrepancy_types.append("Item Id")
                     discrepancy_flag = 1
 
 
