@@ -16,6 +16,70 @@ import Pgs_connector
 
 class processor():
 
+    prefix_name = {"75F": "75F",
+                   "RES": "ADEMCO, INC. (Resideo)",
+                   "ALR": "ALERTON NOVAR",
+                   "ALT": "Altech Corporation",
+                   "APF": "Apollo-Fire",
+                   "ASC": "ASCO L.P.",
+                   "ASI": "ASI Controls",
+                   "ACI": "Automation Components Inc (ACI)",
+                   "BEL": "BELIMO AIRCONTROLS (USA), INC",
+                   "BWR": "Best Wire",
+                   "BAP": "BUILDING AUTOMATION PRODUCTS, INC. (BAPI)",
+                   "CCS": "Contemporary Control Systems",
+                   "ISC": "Controlli",
+                   "DIS": "DISTECH CONTROLS",
+                   "DIV": "DIVERSITECH CORPORATION",
+                   "DWY": "DWYER INSTRUMENTS, INC.",
+                   "FIE": "FIREYE INC.",
+                   "FND": "FUNCTIONAL DEVICES, INC.",
+                   "CNA": "Genuine Cable Group (GCG) (Connect Air)",
+                   "GDR": "GOODRICH SALES INC.",
+                   "HTM": "HEAT-TIMER CORP",
+                   "HFE": "HOFFMAN ENCLOSURES INC.",
+                   "HWW": "HONEYWELL INC.",
+                   "HWI": "HONEYWELL INTERNATIONAL ECC US (HOFS)",
+                   "HWT": "HONEYWELL THERMAL SOLUTIONS",
+                   "ICM": "ICM",
+                   "IDC": "IDEC CORPORATION",
+                   "ICS": "Industrial Connections & Solutions, LLC",
+                   "JCI": "Johnson Controls Inc",
+                   "KLN": "Klein Tools, Inc.",
+                   "KMC": "Kreuter (KMC) Controls",
+                   "LUM": "Lumen Radio",
+                   "LYX": "LynxSpring Inc.",
+                   "MCO": "Macurco",
+                   "MXC": "Maxicap",
+                   "MAX": "MAXITROL COMPANY",
+                   "MXL": "Maxline",
+                   "NCG": "NU-CALGON WHOLESALER",
+                   "PHX": "Phoenix Contact USA, Inc.",
+                   "PLN": "PROLON",
+                   "RBS": "ROBERTSHAW CONTROLS COMPANY",
+                   "SAG": "SAGINAW CONTROL & ENGINEERING",
+                   "SCH": "SCHNEIDER ELECTRIC BUILDINGS AMERICAS, INC",
+                   "SEI": "Seitron",
+                   "SEN": "SENVA, INC.",
+                   "SET": "SETRA SYSTEMS, INC.",
+                   "SIE": "SIEMENS INDUSTRY, INC.",
+                   "SKY": "Skyfoundry",
+                   "SYS": "System Sensor",
+                   "TOS": "TOSIBOX, INC.",
+                   "VYK": "Tridium Inc.",
+                   "USM": "US Motor Nidec Motor Corp",
+                   "HWA": "VULCAIN ALARM DIVISION",
+                   "XYL": "Xylem",
+                   "YRK": "York Chiller Parts",
+                   "PFP": "Performance Pipe",
+                   "PER": "Periscope",
+                   "JNL": "J&L Manufacturing",
+                   "RFL": "NiagaraMod",
+                   "FUS": "Fuseco",
+                   "SFR": "Not identified",
+                   "DAN": "Danfoss"
+                   }
+    
     # Read the data from the BCS database
     def read_data(self):
 
@@ -39,6 +103,35 @@ class processor():
         df["supplier_cost"] = df["supplier_cost"].round(2)
         df["supplier_list"] = df["supplier_list"].round(2)
         df["p1"] = df["p1"].round(2)
+
+
+        def clean_item(item):
+            # Match prefix using regex
+            match = re.match(r'([A-Z0-9]{3})-(.+)', item)
+            if match:
+                prefix = match.group(1)  # Get the prefix
+                # Check if the prefix is in the class's prefix_name dictionary
+                if prefix in self.prefix_name:
+                    return match.group(2)  # Return the part after the prefix
+            return item  # Return the item as-is if no match
+
+        # Local function to extract prefix
+        def extract_prefix(item):
+            match = re.match(r'([A-Z0-9]{3})-(.+)', item)
+            if match:
+                prefix = match.group(1)
+                # Check if the prefix is in the class's prefix_name dictionary
+                if prefix in self.prefix_name:
+                    return prefix
+            return ""  # Return empty string if no match
+
+
+        # Apply the functions to the DataFrame
+        df['item_prefix'] = df['item_id'].apply(extract_prefix)
+        df['clean_item'] = df['item_id'].apply(clean_item)
+        
+        # downloading a BUP of full file
+        df.to_excel("output.xlsx", index = False)
         
         # return df
         return df
@@ -126,7 +219,7 @@ class processor():
                 #print(shortcode_cleaned)
                 
                 if shortcode != df.loc[index, "clean_sup_part_no"]:     # needs to be included in query
-                    discrepancy_types.append("clean shortcode & clean SPN")       # question: shortcode is a part of SPN?
+                    discrepancy_types.append("shortcode & clean SPN")       # question: shortcode is a part of SPN?
                     discrepancy_flag = 1
 
 
@@ -159,6 +252,12 @@ class processor():
 
         processorob = processor()
         df = processorob.read_data()
+
+        columns_str = ['item_id', 'supplier_part_no', 'clean_sup_part_no', 'supplier_id', 'clean_item', 'short_code']
+        df[columns_str] = df[columns_str].astype(str)
+
+        print(df[df["supplier_part_no"] == "2881"])
+        
         df = processorob.column_initiator(df)
         df = processorob.modifier(df)
         df = processorob.checker(df)

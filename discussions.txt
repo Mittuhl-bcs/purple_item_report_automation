@@ -103,3 +103,7 @@ total_inv.LPD
 ORDER BY
 inv_mast_ud.on_vendor_price_book, p21_item_view.item_id
 
+
+
+ - prefix check - add it to the column "prefix"
+ - clean_item - process it from the previous find (re) 

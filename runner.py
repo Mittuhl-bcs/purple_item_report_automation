@@ -1,6 +1,7 @@
 # this is main file that will be used for running other files for DB connection, data processing
 import Pgs_connector as pgs
 import processor as pmauto
+import postgres_stats_update as pgsstats
 from datetime import datetime 
 import argparse, sys
 import logging
@@ -38,12 +39,26 @@ def runner_main(new_loop):
     output_file = f"D:\\Temp_items_discrepancy_reports\\Discrepancies - Purple items - Price matching report {day}-{month}-{year}.csv"
 
 
+    columns_str = ['item_id', 'supplier_part_no', 'clean_sup_part_no', 'supplier_id', 'clean_item', 'short_code']
+    df[columns_str] = df[columns_str].astype(str)
+
+
     conn = pgs.connect_to_postgres(dbname, user, password, host, port)
     pgs.read_data_into_table(conn, df, new_loop)
     pgs.export_table_to_csv(conn, table_name, output_file)
     conn.close()
 
+    conn_stat = pgsstats.connect_to_postgres(dbname, user, password, host, port)
 
+    # read the stats into the stats table
+    pgsstats.read_data_into_table(conn_stat, output_file)
+    conn_stat.close()
+
+    conn_stat = pgsstats.connect_to_postgres(dbname, user, password, host, port)
+
+    # read the stats into the stats table
+    pgsstats.read_data_into_table(conn_stat, output_file)
+    conn_stat.close()
     # Send mails to the recipients with the attachments
     # mailresult = mailer.send_email(output_file)
     
